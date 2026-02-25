@@ -1,0 +1,27 @@
+{
+  "name": "nodejs-pro",
+  "version": "1.0.0",
+  "description": "nodejs pro",
+  "keywords": [
+    "nodejs",
+    "express",
+    "mongodb"
+  ],
+  "homepage": "https://github.com/NgDucNguyen/nodejs-trainning#readme",
+  "bugs": {
+    "url": "https://github.com/NgDucNguyen/nodejs-trainning/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NgDucNguyen/nodejs-trainning.git"
+  },
+  "license": "ISC",
+  "author": {
+    "name": "Nguyễn Đức Nguyên"
+  },
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
