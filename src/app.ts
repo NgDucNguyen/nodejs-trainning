@@ -10,11 +10,15 @@ const PORT = process.env.PORT || 808;
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 
-//conflig route
-webRoutes(app);
+//config req.body
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 //conflig static files :images/css/js
 app.use(express.static("public"));
+
+//conflig route
+webRoutes(app);
 
 app.listen(PORT, () => {
   console.log(`My app is rynning on port: ${PORT}`);

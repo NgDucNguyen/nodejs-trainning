@@ -1,19 +1,18 @@
 import express, { Express } from "express";
+import {
+  getCreateUserPage,
+  getHomePage,
+  postCreateUser,
+} from "../controllers/user.controller";
 
 const rounter = express.Router();
 
 const webRoutes = (app: Express) => {
-  rounter.get("/", (req, res) => {
-    res.render("home.ejs");
-  });
+  rounter.get("/", getHomePage);
 
-  rounter.get("/v1", (req, res) => {
-    res.send("Tao la Nguyen GAY");
-  });
+  rounter.get("/create-user", getCreateUserPage);
+  rounter.post("/handle-create-user", postCreateUser);
 
-  rounter.get("/abc", (req, res) => {
-    res.send("ABCDEF");
-  });
   app.use("/", rounter);
 };
 
