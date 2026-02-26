@@ -13,6 +13,9 @@ app.set("views", __dirname + "/views");
 //conflig route
 webRoutes(app);
 
+//conflig static files :images/css/js
+app.use(express.static("public"));
+
 app.listen(PORT, () => {
   console.log(`My app is rynning on port: ${PORT}`);
 });
