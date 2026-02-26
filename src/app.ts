@@ -1,18 +1,18 @@
 // const express = require("express");
 import express from "express";
 import "dotenv/config";
+import webRoutes from "./routes/web";
 const app = express();
 
 const PORT = process.env.PORT || 808;
-app.get("/", (req, res) => {
-  res.send("Hello world env");
-});
 
-app.get("/v1", (req, res) => {
-  res.send("Tao la Nguyen");
-});
+// conflig view engine
+app.set("view engine", "ejs");
+app.set("views", __dirname + "/views");
+
+//conflig route
+webRoutes(app);
 
 app.listen(PORT, () => {
   console.log(`My app is rynning on port: ${PORT}`);
-  console.log("env port: ", process.env.PORT);
 });
