@@ -3,7 +3,7 @@ import {
   getCreateUserPage,
   getHomePage,
   postCreateUser,
-} from "../controllers/user.controller";
+} from "controllers/user.controller";
 
 const rounter = express.Router();
 
