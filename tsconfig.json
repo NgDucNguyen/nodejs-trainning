@@ -8,10 +8,11 @@
     "outDir": "dist",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
+    "noImplicitAny": false,
     "rootDir": "src",
     "baseUrl": ".",
     "paths": {
-      "conflig/*": ["./src/conflig/*"],
+      "conflig/*": ["src/config/*"],
       "controllers/*": ["./src/controllers/*"],
       "models/*": ["./src/models/*"],
       "routes/*": ["./src/routes/*"],
