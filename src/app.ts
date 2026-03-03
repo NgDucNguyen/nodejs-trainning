@@ -2,6 +2,7 @@
 import express from "express";
 import "dotenv/config";
 import webRoutes from "./routes/web";
+import initDatabase from "conflig/seed";
 const app = express();
 
 const PORT = process.env.PORT || 808;
@@ -20,6 +21,8 @@ app.use(express.static("public"));
 //conflig route
 webRoutes(app);
 
+//seeding data
+initDatabase();
 app.listen(PORT, () => {
   console.log(`My app is rynning on port: ${PORT}`);
 });
