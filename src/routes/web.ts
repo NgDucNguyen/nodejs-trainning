@@ -8,6 +8,8 @@ import {
   postUpdateUser,
 } from "controllers/user.controller";
 import {
+  getAdminOrderPage,
+  getAdminProductPage,
   getAdminUserPage,
   getDashboardPage,
 } from "controllers/admin/dashboard.controller";
@@ -26,7 +28,9 @@ const webRoutes = (app: Express) => {
   //admin routes
   rounter.get("/admin", getDashboardPage);
   rounter.get("/admin/user", getAdminUserPage);
-
+  rounter.get("/admin/create-user", getCreateUserPage);
+  rounter.get("/admin/order", getAdminOrderPage);
+  rounter.get("/admin/product", getAdminProductPage);
   app.use("/", rounter);
 };
 
