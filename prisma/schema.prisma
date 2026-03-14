@@ -23,7 +23,9 @@ model User {
   address String?   @db.VarChar(255) 
   phone		String?   @db.VarChar(255) 
   accountType	String   @db.VarChar(50) 
-  avatar		String?   @db.VarChar(255) 
+  avatar		String?   @db.VarChar(255)
+  role  Role @relation(fields: [roleId], references: [id])
+  roleId Int 
 
   @@map("users")
 }
@@ -33,6 +35,7 @@ model Role {
   name	String   @db.VarChar(100) 
   description	String   @db.VarChar(255) 
    
+  users User[]
   @@map("roles")
 }
 model Order {
