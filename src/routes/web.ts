@@ -22,10 +22,6 @@ const webRoutes = (app: Express) => {
 
   rounter.get("/create-user", getCreateUserPage);
 
-  rounter.post("/handle-delete-user/:id", postDeleteUser);
-  rounter.get("/handle-view-user/:id", getViewUser);
-  rounter.post("/handle-update-user", postUpdateUser);
-
   //admin routes
   rounter.get("/admin", getDashboardPage);
   rounter.get("/admin/user", getAdminUserPage);
@@ -35,6 +31,14 @@ const webRoutes = (app: Express) => {
     fileUploadMiddleware("avatar"),
     postCreateUser,
   );
+  rounter.post("/admin/delete-user/:id", postDeleteUser);
+  rounter.get("/admin/view-user/:id", getViewUser);
+  rounter.post(
+    "/admin/update-user",
+    fileUploadMiddleware("avatar"),
+    postUpdateUser,
+  );
+
   rounter.get("/admin/order", getAdminOrderPage);
   rounter.get("/admin/product", getAdminProductPage);
   app.use("/", rounter);
