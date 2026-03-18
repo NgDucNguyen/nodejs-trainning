@@ -14,11 +14,13 @@ import {
   getDashboardPage,
 } from "controllers/admin/dashboard.controller";
 import fileUploadMiddleware from "src/middleware/multer";
+import { getProductPage } from "controllers/client/product.controller";
 
 const rounter = express.Router();
 
 const webRoutes = (app: Express) => {
   rounter.get("/", getHomePage);
+  rounter.get("/product/:id", getProductPage);
 
   rounter.get("/create-user", getCreateUserPage);
 
