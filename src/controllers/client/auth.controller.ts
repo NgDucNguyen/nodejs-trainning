@@ -7,7 +7,11 @@ import {
   TRegisterSchema,
 } from "src/validation/register.schema";
 const getLoginPage = async (req: Request, res: Response) => {
-  return res.render("client/auth/login.ejs");
+  const { session } = req as any;
+  const messages = session?.messages ?? [];
+  return res.render("client/auth/login.ejs", {
+    messages,
+  });
 };
 
 const getRegisterPage = async (req: Request, res: Response) => {

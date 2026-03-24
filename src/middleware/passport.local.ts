@@ -5,7 +5,17 @@ import { comparePassword } from "services/user.service";
 
 const configPassportLocal = () => {
   passport.use(
-    new LocalStrategy({}, async function verify(username, password, callback) {
+    new LocalStrategy({ passReqToCallback: true }, async function verify(
+      req,
+      username,
+      password,
+      callback,
+    ) {
+      const { session } = req as any;
+      const messages = session?.messages ?? [];
+      if (session?.messages?.length) {
+        session.messages = [];
+      }
       console.log(">>> check username/password: ", username, passport);
       const user = await prisma.user.findUnique({
         where: { username },
@@ -14,7 +24,7 @@ const configPassportLocal = () => {
         //throw
         // throw new Error(`Username: ${username} not found`);
         return callback(null, false, {
-          message: `Username: ${username} not found`,
+          message: `Username/password invalid`,
         });
       }
       //conpare password
@@ -24,7 +34,7 @@ const configPassportLocal = () => {
         // throw new Error(`Invalid password`);
         console.log(">>> Login failed: Wrong password");
         return callback(null, false, {
-          message: `Invalid password`,
+          message: `Username/password invalid`,
         });
       }
       return callback(null, user);

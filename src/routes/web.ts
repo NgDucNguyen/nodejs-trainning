@@ -40,6 +40,7 @@ const webRoutes = (app: Express) => {
     passport.authenticate("local", {
       successRedirect: "/",
       failureRedirect: "/login",
+      failureMessage: true,
     }),
   );
 
