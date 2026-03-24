@@ -27,55 +27,66 @@ import {
   getRegisterPage,
   postRegister,
 } from "controllers/client/auth.controller";
+import passport from "passport";
 
-const rounter = express.Router();
+const router = express.Router();
 
 const webRoutes = (app: Express) => {
-  rounter.get("/", getHomePage);
-  rounter.get("/product/:id", getProductPage);
-  rounter.get("/login", getLoginPage);
-  rounter.get("/register", getRegisterPage);
-  rounter.post("/register", postRegister);
-  rounter.get("/create-user", getCreateUserPage);
+  router.get("/", getHomePage);
+  router.get("/product/:id", getProductPage);
+  router.get("/login", getLoginPage);
+  router.post(
+    "/login",
+    passport.authenticate("local", {
+      successRedirect: "/",
+      failureRedirect: "/login",
+    }),
+  );
+
+  router.get("/register", getRegisterPage);
+
+  router.post("/register", postRegister);
+
+  router.get("/create-user", getCreateUserPage);
 
   //admin routes
-  rounter.get("/admin", getDashboardPage);
-  rounter.get("/admin/user", getAdminUserPage);
-  rounter.get("/admin/create-user", getCreateUserPage);
-  rounter.post(
+  router.get("/admin", getDashboardPage);
+  router.get("/admin/user", getAdminUserPage);
+  router.get("/admin/create-user", getCreateUserPage);
+  router.post(
     "/admin/handle-create-user",
     fileUploadMiddleware("avatar"),
     postCreateUser,
   );
-  rounter.post("/admin/delete-user/:id", postDeleteUser);
-  rounter.get("/admin/view-user/:id", getViewUser);
-  rounter.post(
+  router.post("/admin/delete-user/:id", postDeleteUser);
+  router.get("/admin/view-user/:id", getViewUser);
+  router.post(
     "/admin/update-user",
     fileUploadMiddleware("avatar"),
     postUpdateUser,
   );
 
-  rounter.get("/admin/product", getAdminProductPage);
-  rounter.get(
+  router.get("/admin/product", getAdminProductPage);
+  router.get(
     "/admin/create-product",
 
     getAdminCreateProductPage,
   );
-  rounter.post(
+  router.post(
     "/admin/create-product",
     fileUploadMiddleware("image", "images/product"),
     postAdminCreateProduct,
   );
 
-  rounter.post("/admin/delete-product/:id", postDeleteProduct);
-  rounter.get("/admin/view-product/:id", getViewProduct);
-  rounter.post(
+  router.post("/admin/delete-product/:id", postDeleteProduct);
+  router.get("/admin/view-product/:id", getViewProduct);
+  router.post(
     "/admin/update-product",
     fileUploadMiddleware("image", "images/product"),
     postUpdateProduct,
   );
-  rounter.get("/admin/order", getAdminOrderPage);
-  app.use("/", rounter);
+  router.get("/admin/order", getAdminOrderPage);
+  app.use("/", router);
 };
 
 export default webRoutes;
