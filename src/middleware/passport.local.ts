@@ -1,8 +1,8 @@
 import { prisma } from "conflig/client";
-import { name } from "ejs";
 import passport, { use } from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import { comparePassword, getUserById } from "services/user.service";
+import { getUserWithRoleById } from "services/client/auth.service";
+import { comparePassword } from "services/user.service";
 
 const configPassportLocal = () => {
   passport.use(
@@ -38,21 +38,22 @@ const configPassportLocal = () => {
           message: `Username/password invalid`,
         });
       }
-      return callback(null, user);
+      return callback(null, user as any);
     }),
   );
 
+  //gui session id va kiem tra -> lay ra id
   passport.serializeUser(function (user: any, callback) {
     callback(null, {
       id: user.id,
       username: user.username,
     });
   });
-
+  //query xuong db
   passport.deserializeUser(async function (user: any, callback) {
     const { id, username } = user;
     //query to db
-    const userInDB = await getUserById(id);
+    const userInDB = await getUserWithRoleById(id);
     return callback(null, { ...userInDB });
   });
 };

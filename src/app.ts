@@ -1,4 +1,5 @@
 // const express = require("express");
+/// <reference path="./types/index.d.ts" />
 import express from "express";
 import "dotenv/config";
 import webRoutes from "src/routes/web";
@@ -46,6 +47,12 @@ app.use(passport.initialize());
 app.use(passport.authenticate("session"));
 configPassportLocal();
 
+//conflig global
+app.use((req, res, next) => {
+  res.locals.user = req.user || null; // Pass user object to all views
+  next();
+});
+
 //conflig route
 webRoutes(app);
 
@@ -54,7 +61,7 @@ initDatabase();
 
 //handle 404 not found
 app.use((req, res) => {
-  res.send("404 not found");
+  res.render("status/404.ejs");
 });
 
 app.listen(PORT, () => {
