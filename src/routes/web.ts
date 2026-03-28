@@ -14,7 +14,10 @@ import {
   getDashboardPage,
 } from "controllers/admin/dashboard.controller";
 import fileUploadMiddleware from "src/middleware/multer";
-import { getProductPage } from "controllers/client/product.controller";
+import {
+  getProductPage,
+  postAddProductToCart,
+} from "controllers/client/product.controller";
 import {
   getAdminCreateProductPage,
   getViewProduct,
@@ -31,6 +34,7 @@ import {
 } from "controllers/client/auth.controller";
 import passport from "passport";
 import { isAdmin, isLogin } from "src/middleware/auth";
+import { runInContext } from "vm";
 
 const router = express.Router();
 
@@ -53,6 +57,7 @@ const webRoutes = (app: Express) => {
 
   router.post("/register", postRegister);
 
+  router.post("/add-product-to-cart/:id", postAddProductToCart);
   router.get("/create-user", getCreateUserPage);
 
   //admin routes
