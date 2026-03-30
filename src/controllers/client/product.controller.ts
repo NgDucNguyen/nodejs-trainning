@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { use } from "passport";
 import {
   addProductToCart,
+  DeleteProductInCart,
   getProductById,
   getProductInCart,
 } from "services/client/item.service";
@@ -36,5 +37,21 @@ const getCartPage = async (req: Request, res: Response) => {
 
   return res.render("client/product/cart", { cartDetails, totalPrice });
 };
+const postDeleteProductInCart = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const user = req.user;
 
-export { getProductPage, postAddProductToCart, getCartPage };
+  if (user) {
+    await DeleteProductInCart(+id, user.id, user.sumCart);
+  } else {
+    return res.redirect("/login");
+  }
+  return res.redirect("/cart");
+};
+
+export {
+  getProductPage,
+  postAddProductToCart,
+  getCartPage,
+  postDeleteProductInCart,
+};
