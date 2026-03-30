@@ -24,6 +24,37 @@ const addProductToCart = async (
   });
   if (cart) {
     //update
+    //cap nhat sum gio hang
+    await prisma.cart.update({
+      where: { id: cart.id },
+      data: {
+        sum: {
+          increment: quantity,
+        },
+      },
+    });
+    //cap nhat cart detail
+    //neu chua co thi tao moi, co roi thi cap nhat
+    const currentCartDetail = await prisma.cartDetail.findFirst({
+      where: {
+        productId: productId,
+        cartId: cart.id,
+      },
+    });
+    await prisma.cartDetail.upsert({
+      where: { id: currentCartDetail?.id ?? 0 },
+      update: {
+        quantity: {
+          increment: quantity,
+        },
+      },
+      create: {
+        price: product?.price ?? 0,
+        quantity: quantity,
+        productId: productId,
+        cartId: cart.id,
+      },
+    });
   } else {
     //create
     await prisma.cart.create({
