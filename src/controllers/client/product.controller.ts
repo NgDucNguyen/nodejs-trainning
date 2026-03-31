@@ -5,6 +5,7 @@ import {
   DeleteProductInCart,
   getProductById,
   getProductInCart,
+  handlerPlaceOrder,
   updateCartDetailBeforeCheckout,
 } from "services/client/item.service";
 
@@ -71,6 +72,29 @@ const postHandleCartToCheckout = async (req: Request, res: Response) => {
   await updateCartDetailBeforeCheckout(currentCartDetail);
   return res.redirect("/checkout");
 };
+
+const postPlaceOrder = async (req: Request, res: Response) => {
+  const user = req.user;
+  if (!user) return res.redirect("/login");
+  const { receiverName, receiverAddress, receiverPhone, totalPrice } = req.body;
+
+  await handlerPlaceOrder(
+    user.id,
+    receiverName,
+    receiverAddress,
+    receiverPhone,
+    +totalPrice,
+  );
+  return res.redirect("/thanks");
+};
+
+const getThanksPage = async (req: Request, res: Response) => {
+  const user = req.user;
+  if (!user) return res.redirect("/login");
+
+  return res.render("client/product/thanks.ejs");
+};
+
 export {
   getProductPage,
   postAddProductToCart,
@@ -78,4 +102,6 @@ export {
   postDeleteProductInCart,
   getCheckOutPage,
   postHandleCartToCheckout,
+  postPlaceOrder,
+  getThanksPage,
 };
