@@ -38,7 +38,8 @@ const getCartPage = async (req: Request, res: Response) => {
     ?.map((item) => +item.price * item.quantity)
     ?.reduce((a, b) => a + b, 0);
 
-  return res.render("client/product/cart", { cartDetails, totalPrice });
+  const cartId = cartDetails.length ? cartDetails[0].cartId : 0;
+  return res.render("client/product/cart", { cartDetails, totalPrice, cartId });
 };
 const postDeleteProductInCart = async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -68,9 +69,10 @@ const postHandleCartToCheckout = async (req: Request, res: Response) => {
   const user = req.user;
   if (!user) return res.redirect("/login");
 
+  const { cartId } = req.body;
   const currentCartDetail: { id: string; quantity: string }[] =
     req.body?.cartDetails ?? [];
-  await updateCartDetailBeforeCheckout(currentCartDetail);
+  await updateCartDetailBeforeCheckout(currentCartDetail, cartId);
   return res.redirect("/checkout");
 };
 
@@ -78,14 +80,17 @@ const postPlaceOrder = async (req: Request, res: Response) => {
   const user = req.user;
   if (!user) return res.redirect("/login");
   const { receiverName, receiverAddress, receiverPhone, totalPrice } = req.body;
-
-  await handlerPlaceOrder(
+  const message = await handlerPlaceOrder(
     user.id,
     receiverName,
     receiverAddress,
     receiverPhone,
     +totalPrice,
   );
+  console.log(">>> check message: ", message);
+  if (message) {
+    return res.redirect("/checkout");
+  }
   return res.redirect("/thanks");
 };
 
