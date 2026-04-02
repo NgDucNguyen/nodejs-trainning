@@ -111,15 +111,19 @@
                       class="btn btn-sm btn-plus rounded-circle bg-light border"
                     >
                       <i class="fa fa-plus"></i>
-                    </button>
+                    </button>                   
                   </div>
                 </div>
-                <a
+                <form action="/add-to-cart-from-detail-page/<%=product.id%>" method="post">
+                  <input value="1" style="display: block;" id="quantityDetail" name="quantity">
+                <button
+                type="submit"
                   href="#"
                   class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"
-                  ><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to
-                  cart</a
-                >
+                  ><i class="fa fa-shopping-bag me-2 text-primary"></i> 
+                  Add to cart
+                </button>
+                </form>
               </div>
               <div class="col-lg-12">
                 <nav>
