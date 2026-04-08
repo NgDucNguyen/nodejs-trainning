@@ -6,6 +6,7 @@ import {
   postDeleteUser,
   getViewUser,
   postUpdateUser,
+  getProductFilterPage,
 } from "controllers/user.controller";
 import {
   getAdminOrderDetailPage,
@@ -43,12 +44,12 @@ import {
 } from "controllers/client/auth.controller";
 import passport from "passport";
 import { isAdmin, isLogin } from "src/middleware/auth";
-import { runInContext } from "vm";
 
 const router = express.Router();
 
 const webRoutes = (app: Express) => {
   router.get("/", getHomePage);
+  router.get("/products", getProductFilterPage);
   router.get("/success-redirect", getSuccessRedirectPage);
   router.get("/product/:id", getProductPage);
   router.get("/login", getLoginPage);
