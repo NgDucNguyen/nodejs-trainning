@@ -249,7 +249,7 @@
     });
 
     //price filter
-    $("#priceFilter .form-check-input:checked").each(function () {
+    $("input[name='price']:checked").each(function () {
       priceArr.push($(this).val());
     });
 

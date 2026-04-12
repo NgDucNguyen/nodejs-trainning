@@ -124,29 +124,30 @@
                                     <div class="mb-2"><b>Mức giá</b></div>
 
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="price-2"
-                                            value="duoi-10-trieu">
-                                        <label class="form-check-label" for="price-2">Dưới 10 triệu</label>
+                                        <input name="price" class="form-check-input" type="checkbox" id="priceFilter"
+                                            value="duoi-10-trieu"> 
+                                
+                                        <label class="form-check-label" for="priceFilter">Dưới 10 triệu</label>
                                     </div>
 
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="price-3"
+                                        <input name="price" class="form-check-input" type="checkbox" id="priceFilter"
                                             value="10-15-trieu">
-                                        <label class="form-check-label" for="price-3">Từ 10 - 15
+                                        <label class="form-check-label" for="priceFilter">Từ 10 - 15
                                             triệu</label>
                                     </div>
 
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="price-4"
+                                        <input name="price" class="form-check-input" type="checkbox" id="priceFilter"
                                             value="15-20-trieu">
-                                        <label class="form-check-label" for="price-4">Từ 15 - 20
+                                        <label class="form-check-label" for="priceFilter">Từ 15 - 20
                                             triệu</label>
                                     </div>
 
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="price-5"
+                                        <input name="price" class="form-check-input" type="checkbox" id="priceFilter"
                                             value="tren-20-trieu">
-                                        <label class="form-check-label" for="price-5">Trên 20 triệu</label>
+                                        <label class="form-check-label" for="priceFilter">Trên 20 triệu</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -217,7 +218,7 @@
                                         </div>
                                     </div>
                                     <% }) %>
-
+                                       <% if(products?.length){ %>
                                         <div class="pagination d-flex justify-content-center mt-5">
                                             <li class="<%= page === 1 ? 'disabled page-item' : 'page-item' %> ">
                                                 <a class="page-link" href="/products?page=<%= page - 1  %>"
@@ -241,6 +242,9 @@
                                                         </a>
                                                     </li>
                                         </div>
+                                        <% } else { %>
+                                             <div>Không tồn tại sản phẩm</div>
+                                        <% } %>
                             </div>
                         </div>
                     </div>
