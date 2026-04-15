@@ -1,5 +1,14 @@
 import { Request, Response } from "express";
+import {
+  handleGetAllUser,
+  handleGetUserById,
+} from "services/client/api.service";
+import { registerNewUser } from "services/client/auth.service";
 import { addProductToCart } from "services/client/item.service";
+import {
+  RegisterSchema,
+  TRegisterSchema,
+} from "src/validation/register.schema";
 
 const postAddProductToCartAPI = async (req: Request, res: Response) => {
   const { quantity, productId } = req.body;
@@ -13,4 +22,45 @@ const postAddProductToCartAPI = async (req: Request, res: Response) => {
     data: newSum,
   });
 };
-export { postAddProductToCartAPI };
+
+const getAllUsersAPI = async (req: Request, res: Response) => {
+  const users = await handleGetAllUser();
+  res.status(200).json({
+    data: users,
+  });
+};
+
+const getUserByIdAPI = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const user = await handleGetUserById(+id);
+  res.status(200).json({
+    data: user,
+  });
+};
+
+const createUsersAPI = async (req: Request, res: Response) => {
+  const { fullName, email, password } = req.body as TRegisterSchema;
+
+  const validate = await RegisterSchema.safeParseAsync(req.body);
+  if (!validate.success) {
+    //error
+    const errorZod = validate.error.issues;
+    const errors = errorZod?.map((item) => `${item.message} (${item.path[0]})`);
+
+    res.status(400).json({
+      errors: errors,
+    });
+    return;
+  }
+  //success
+  await registerNewUser(fullName, email, password);
+  res.status(201).json({
+    data: "create user succeed",
+  });
+};
+export {
+  postAddProductToCartAPI,
+  getAllUsersAPI,
+  getUserByIdAPI,
+  createUsersAPI,
+};
