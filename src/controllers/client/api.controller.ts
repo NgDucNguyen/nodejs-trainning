@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
 import {
+  handleDeleteUserById,
   handleGetAllUser,
   handleGetUserById,
+  handleUpdateUserById,
 } from "services/client/api.service";
 import { registerNewUser } from "services/client/auth.service";
 import { addProductToCart } from "services/client/item.service";
@@ -58,9 +60,32 @@ const createUsersAPI = async (req: Request, res: Response) => {
     data: "create user succeed",
   });
 };
+
+const updateUserByIdAPI = async (req: Request, res: Response) => {
+  const { fullName, address, phone } = req.body;
+  const { id } = req.params;
+
+  //success
+  await handleUpdateUserById(+id, fullName, address, phone);
+  res.status(200).json({
+    data: "Update user succeed",
+  });
+};
+
+const deleteUserByIdAPI = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  //success
+  await handleDeleteUserById(+id);
+  res.status(200).json({
+    data: "Delete user succeed",
+  });
+};
 export {
   postAddProductToCartAPI,
   getAllUsersAPI,
   getUserByIdAPI,
   createUsersAPI,
+  updateUserByIdAPI,
+  deleteUserByIdAPI,
 };
