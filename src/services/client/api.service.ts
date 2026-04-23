@@ -38,6 +38,9 @@ const handleDeleteUserById = async (id: number) => {
 const handleUserLogin = async (username: string, password: string) => {
   const user = await prisma.user.findUnique({
     where: { username },
+    include: {
+      role: true,
+    },
   });
   if (!user) {
     //throw
@@ -54,8 +57,10 @@ const handleUserLogin = async (username: string, password: string) => {
   const payload = {
     id: user.id,
     email: user.username,
+    role: user.role,
     roleId: user.roleId,
     accountType: user.accountType,
+    avatar: user.avatar,
   };
   const secret = process.env.JWT_SECRET!;
   const expiresIn: any = process.env.JWT_EXPIRES_IN;
