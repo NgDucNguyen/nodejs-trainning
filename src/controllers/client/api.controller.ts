@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { use } from "passport";
 import {
   handleDeleteUserById,
   handleGetAllUser,
@@ -28,6 +29,8 @@ const postAddProductToCartAPI = async (req: Request, res: Response) => {
 
 const getAllUsersAPI = async (req: Request, res: Response) => {
   const users = await handleGetAllUser();
+  const user = req.user;
+  console.log(">>> check user: ", user);
   res.status(200).json({
     data: users,
   });

@@ -2,6 +2,7 @@ import { prisma } from "conflig/client";
 import { comparePassword } from "services/user.service";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
+import { ACCOUNT_TYPE } from "conflig/constant";
 const handleGetAllUser = async () => {
   return await prisma.user.findMany();
 };
@@ -54,10 +55,12 @@ const handleUserLogin = async (username: string, password: string) => {
     id: user.id,
     email: user.username,
     roleId: user.roleId,
+    accountType: user.accountType,
   };
   const secret = process.env.JWT_SECRET!;
+  const expiresIn: any = process.env.JWT_EXPIRES_IN;
   const access_token = jwt.sign(payload, secret, {
-    expiresIn: "1d",
+    expiresIn: expiresIn,
   });
   return access_token;
 };

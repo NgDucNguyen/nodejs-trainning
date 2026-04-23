@@ -1,7 +1,32 @@
 import { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
 const checkValidJWT = (req: Request, res: Response, next: NextFunction) => {
   const token = req.headers["authorization"]?.split(" ")[1]; // format: Bearer <token>
-  console.log(token);
-  next();
+
+  try {
+    const dataDecoded: any = jwt.verify(
+      token!,
+      process.env.JWT_SECRET as string,
+    );
+    console.log(dataDecoded);
+    req.user = {
+      id: dataDecoded.id,
+      username: dataDecoded.email,
+      password: "",
+      fullName: "",
+      address: "",
+      phone: "",
+      accountType: dataDecoded.accountType,
+      avatar: dataDecoded.avatar,
+      roleId: dataDecoded.roleId,
+    };
+    next();
+  } catch (error) {
+    console.log(error);
+    res.status(401).json({
+      data: null,
+      message: "Token không hợp lệ (không truyển lên token hoặc token hết hạn",
+    });
+  }
 };
 export { checkValidJWT };
